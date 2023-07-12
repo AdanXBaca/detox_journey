@@ -13,6 +13,16 @@ st.set_page_config(
     layout="wide",
 )
 
+mystyle = '''
+    <style>
+        p {
+            text-align: justify;
+        }
+    </style>
+    '''
+
+st.markdown(mystyle, unsafe_allow_html=True)
+
 st.title("Patient Addiction Journey Models")
 
 tab_SEIHR, tab_SEIHTR = st.tabs(["SEIHR", "SEIHTR"])

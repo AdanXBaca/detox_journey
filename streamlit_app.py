@@ -63,7 +63,7 @@ with tab_SEIHR:
 
     b = col14.number_input(
         "b",
-        min_value=0.001,
+        min_value=0.0,
         max_value=1.0,
         value=0.0,
         step=0.01,

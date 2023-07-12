@@ -29,7 +29,8 @@ with tab_SEIHR:
     """
     )
 
-    col11, col12, col13, col14, col15, col16, col17, col18, col19, col110, col111, col112, col113 = st.columns(13)
+    col11, col12, col13, col14, col15, col16 = st.columns(6)
+    col21, col22, col23, col24, col25, col26, col27 = st.columns(7)
 
     N = col11.number_input(
         "N",
@@ -42,7 +43,7 @@ with tab_SEIHR:
     )
 
     n_days = col12.number_input(
-        "Number of days",
+        "Number of Days",
         min_value=30,
         max_value=366,
         value=60,
@@ -92,7 +93,7 @@ with tab_SEIHR:
         help="Relapse rate for recovered individuals"
     )
 
-    r2 = col17.number_input(
+    r2 = col21.number_input(
         # st.latex(r"$\r_{2}$"),
         "r2",
         min_value=0.001,
@@ -103,7 +104,7 @@ with tab_SEIHR:
         help="Relapse rate for hospitalized individuals"
     )
 
-    sigma = col18.number_input(
+    sigma = col22.number_input(
         "Sigma",
         min_value=0.001,
         max_value=1.0,
@@ -113,7 +114,7 @@ with tab_SEIHR:
         help="Infection rate for exposed"
     )
 
-    gamma = col19.number_input(
+    gamma = col23.number_input(
         "Gamma",
         min_value=0.001,
         max_value=1.0,
@@ -123,7 +124,7 @@ with tab_SEIHR:
         help="Rate of infected individuals who recover"
     )
 
-    eta = col110.number_input(
+    eta = col24.number_input(
         "Eta",
         min_value=0.001,
         max_value=1.0,
@@ -133,7 +134,7 @@ with tab_SEIHR:
         help="Rate of infected individuals who become hospitalized"
     )
 
-    omega = col111.number_input(
+    omega = col25.number_input(
         "Omega",
         min_value=0.001,
         max_value=1.0,
@@ -143,7 +144,7 @@ with tab_SEIHR:
         help="Rate of hospitalized patients who recover"
     )
 
-    mu1 = col112.number_input(
+    mu1 = col26.number_input(
         # st.latex(r"$\mu_{1}"),
         "mu1",
         min_value=0.001,
@@ -154,7 +155,7 @@ with tab_SEIHR:
         help="Death rate for infected"
     )
 
-    mu2 = col113.number_input(
+    mu2 = col27.number_input(
         # st.latex(r"$\mu_{2}"),
         "mu2",
         min_value=0.001,

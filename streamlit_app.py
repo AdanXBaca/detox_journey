@@ -123,7 +123,7 @@ with tab_SEIHR:
         help="Rate of infected individuals who recover"
     )
 
-    eta = col16.number_input(
+    eta = col110.number_input(
         "Eta",
         min_value=0.001,
         max_value=1.0,
@@ -133,7 +133,7 @@ with tab_SEIHR:
         help="Rate of infected individuals who become hospitalized"
     )
 
-    omega = col16.number_input(
+    omega = col111.number_input(
         "Omega",
         min_value=0.001,
         max_value=1.0,
@@ -143,7 +143,7 @@ with tab_SEIHR:
         help="Rate of hospitalized patients who recover"
     )
 
-    mu1 = col16.number_input(
+    mu1 = col112.number_input(
         # st.latex(r"$\mu_{1}"),
         "mu1",
         min_value=0.001,
@@ -154,7 +154,7 @@ with tab_SEIHR:
         help="Death rate for infected"
     )
 
-    mu2 = col16.number_input(
+    mu2 = col113.number_input(
         # st.latex(r"$\mu_{2}"),
         "mu2",
         min_value=0.001,

@@ -18,6 +18,13 @@ st.title("Patient Addiction Journey Models")
 tab_SEIHR, tab_SEIHTR = st.tabs(["SEIHR", "SEIHTR"])
 
 with tab_SEIHR:
+    st.text_area('''The following model represents the jouney of addiction
+    patients, as a population. Each compartment represents a state in the
+    journey. S represents susceptible, which could be anyone. E is an 
+    exposed state, and I is infected. H represents hospitalization,
+    which could be the result of overdose. Finally, R represents recovery
+    from an addiction.
+    ''')
     st.latex(r"""
     \begin{align}
         \dfrac{dS}{dt} &= -\frac{\beta S I}{N}  (1-b) - \frac{\epsilon \beta S E}{N} (1-b)\\

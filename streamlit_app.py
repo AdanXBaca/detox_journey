@@ -30,7 +30,6 @@ with tab_SEIHR:
     )
 
     col11, col12, col13, col14, col15, col16 = st.columns(6)
-    col21, col22, col23, col24, col25, col26, col27 = st.columns(7)
 
     N = col11.number_input(
         "N",
@@ -92,6 +91,8 @@ with tab_SEIHR:
         format=None,
         help="Relapse rate for recovered individuals"
     )
+
+    col21, col22, col23, col24, col25, col26, col27 = st.columns(7)
 
     r2 = col21.number_input(
         # st.latex(r"$\r_{2}$"),

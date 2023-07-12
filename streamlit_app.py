@@ -82,7 +82,8 @@ with tab_SEIHR:
     )
 
     r1 = col16.number_input(
-        st.latex(r"$\r_{1}$"),
+        # st.latex(r"$\r_{1}$"),
+        "r1"
         min_value=0.001,
         max_value=1.0,
         value=0.4,
@@ -92,7 +93,8 @@ with tab_SEIHR:
     )
 
     r2 = col17.number_input(
-        st.latex(r"$\r_{2}$"),
+        # st.latex(r"$\r_{2}$"),
+        "r2"
         min_value=0.001,
         max_value=1.0,
         value=0.5,
@@ -142,7 +144,8 @@ with tab_SEIHR:
     )
 
     mu1 = col16.number_input(
-        st.latex(r"$\mu_{1}"),
+        # st.latex(r"$\mu_{1}"),
+        "mu1"
         min_value=0.001,
         max_value=1.0,
         value=0.05,
@@ -152,7 +155,8 @@ with tab_SEIHR:
     )
 
     mu2 = col16.number_input(
-        st.latex(r"$\mu_{2}"),
+        # st.latex(r"$\mu_{2}"),
+        "mu2"
         min_value=0.001,
         max_value=1.0,
         value=0.01,

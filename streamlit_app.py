@@ -25,7 +25,7 @@ st.markdown(mystyle, unsafe_allow_html=True)
 
 st.title("Patient Addiction Journey Models")
 
-tab_SEIHR, tab_SEIHTR = st.tabs(["SEIHR", "SEIHTR"])
+tab_SEIHR, tab_SEIHTR, tab_contact = st.tabs(["SEIHR", "SEIHTR", "Contact Info"])
 
 with tab_SEIHR:
     st.markdown('''The following model represents the jouney of addiction
@@ -243,6 +243,11 @@ with tab_SEIHR:
             )
             ax.set_title(f"{model_name} model - Forward Simulation")
             st.pyplot(fig)
+
+
+with tab_contact:
+    st.markdown("Made by Adan Baca, Diego Gonzales, Alonso Ogueda, and Padhu Seshaiyer.")
+    st.markdown("Contact Info: \n Adan Baca: adanbaca@arizona.edu \n Diego Gonzalez: diego.gonzalez@laverne.edu")
             
 
 

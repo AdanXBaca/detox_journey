@@ -3,75 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
-
-from scipy.integrate import solve_ivp
+from models import *
 
 sns.set_theme(style="whitegrid")
-
-def SEIHR_forward(
-    t_array,
-    y0,
-    N,
-    beta,
-    b,
-    epsilon,
-    r1,
-    r2,
-    sigma,
-    gamma,
-    eta,
-    omega,
-    mu1,
-    mu2
-):
-
-    def func(t, y):
-        S, E, I, H, R = y
-        dS_dt = -beta * S * I * (1-b)  - epsilon * beta * S * E * (1-b)
-        dE_dt = beta * S * I * (1-b) + epsilon * beta * S * E * (1-b) - sigma * E + r1 * R
-        dI_dt = sigma * E - gamma * I - eta * I - mu1 * I + r2 * H
-        dH_dt = eta * I - omega * H - mu2 * H - r2 * H
-        dR_dt = gamma * I + omega * H - r1 * R
-
-        return np.array([dS_dt, dE_dt, dI_dt, dH_dt, dR_dt])
-
-    t_span = (t_array[0], t_array[-1])
-    sol = solve_ivp(func, t_span, np.array(y0)/N, dense_output=True)
-    return sol.sol(t_array).T
-
-
-def SEIHTR_forward(t_array,
-    y0,
-    N,
-    beta,
-    b,
-    epsilon,
-    sigma,
-    r1,
-    gamma,
-    eta,
-    alpha,
-    mu1,
-    r2,
-    r3,
-    omega,
-    mu2,
-    delta
-):
-
-    def func(x,y):
-        s, e, i, h, t, r = y
-        dSdt = - beta * s * i * (1-b) - epsilon * beta * s * e * (1-b)
-        dEdt = beta * s * i * (1-b) + epsilon * beta * s * e * (1-b) - sigma * e + r1 * r
-        dIdt = sigma * e - gamma * i - eta * i - alpha * i - mu1 * i + r2 * h + r3 * t
-        dHdt = eta * i - r2 * h - omega * h - mu2 * h
-        dTdt = alpha * i - r3 * t - delta * t
-        dRdt = delta * t + gamma * i + omega * h - r1 * r
-        return np.array([dSdt, dEdt, dIdt, dHdt, dTdt, dRdt])
-
-    t_span = (t_array[0], t_array[-1])
-    sol = solve_ivp(func, t_span, np.array(y0)/N, dense_output=True)
-    return sol.sol(t_array).T
 
 st.set_page_config(
     page_title = "Patient Addiction Journey Models",
@@ -167,15 +101,128 @@ with tab_SEIHR:
         help="Relapse rate for hospitalized individuals"
     )
 
-    sigma = col16.number_input(
-        st.latex("Sigma"),
+    sigma = col18.number_input(
+        "Sigma",
         min_value=0.001,
         max_value=1.0,
-        value=0.4,
+        value=0.9,
         step=0.01,
         format=None,
-        help="Relapse rate for recovered individuals"
+        help="Infection rate for exposed"
     )
+
+    gamma = col19.number_input(
+        "Gamma",
+        min_value=0.001,
+        max_value=1.0,
+        value=1/14,
+        step=0.01,
+        format=None,
+        help="Rate of infected individuals who recover"
+    )
+
+    eta = col16.number_input(
+        "Eta",
+        min_value=0.001,
+        max_value=1.0,
+        value=1/21,
+        step=0.01,
+        format=None,
+        help="Rate of infected individuals who become hospitalized"
+    )
+
+    omega = col16.number_input(
+        "Omega",
+        min_value=0.001,
+        max_value=1.0,
+        value=0.5,
+        step=0.01,
+        format=None,
+        help="Rate of hospitalized patients who recover"
+    )
+
+    mu1 = col16.number_input(
+        st.latex(r"$\mu_{1}"),
+        min_value=0.001,
+        max_value=1.0,
+        value=0.05,
+        step=0.01,
+        format=None,
+        help="Death rate for infected"
+    )
+
+    mu2 = col16.number_input(
+        st.latex(r"$\mu_{2}"),
+        min_value=0.001,
+        max_value=1.0,
+        value=0.01,
+        step=0.01,
+        format=None,
+        help="Death rate for hospitalized"
+    )
+
+    if st.button("Run forward simulation"):
+        with st.spinner("Wait for it..."):
+            t_train = np.arange(0, n_days, 1)
+            parameters = {
+                "beta": beta,
+                "b":b,
+                "epsilon":epsilon,
+                "r1":r1,
+                "r2":r2,
+                "sigma":sigma,
+                "gamma":gamma,
+                "eta":eta,
+                "omega":omega,
+                "mu1":mu1,
+                "mu2":mu2
+            }
+            S_0 = N - 51
+            E_0 = 50
+            I_0 = 1
+            H_0 = 0
+            R_0 = 0
+            y0 = [S_0, E_0, I_0, H_0, R_0]
+            y_sol = SEIHR_forward(
+                t_train,
+                y0,
+                N,
+                beta,
+                b,
+                epsilon,
+                r1,
+                r2,
+                sigma,
+                gamma,
+                eta,
+                omega,
+                mu1,
+                mu2
+            )
+
+            model_name = "SEIHR"
+            population_names = list(model_name)
+            data_real = (
+                pd.DataFrame(y_sol, 
+                columns=population_names).assign(time=t_train).melt(
+                    id_vars="time", var_name="status", value_name="population")
+                )
+            
+            fig, ax = plt.subplots(figsize = (10,4))
+            sns.lineplot(
+                data = data_real,
+                x = "time",
+                y = "population",
+                hue = "status",
+                legend = True,
+                linestyle = "dashed",
+                ax=ax
+            )
+            ax.set_title(f"{model_name} model - Forward Simulation")
+            st.pyplot(fig)
+            
+
+
 
 
 
